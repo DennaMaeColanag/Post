@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <nav class="bg-blue-300 fixed top-0 left-0 h-18 w-full z-999 backdrop-blur-md shadow-sm ">
+        <div class="flex justify-center items-center mt-3 gap-5">
+            <button onclick="homepostbtn()"
+                class="bg-gray-400 w-30 h-10 rounded-lg border-1 border-black  text-2xl text-black cursor-pointer hover:bg-gray-500 ">Home</button>
+            <button onclick="trashPostbtn()"
+                class="bg-red-400 w-30 h-10 rounded-lg border-1 border-black  text-2xl text-black cursor-pointer hover:bg-red-500 ">Trash
+            </button>
+        </div>
+    </nav>
+    <div id="trashmodal" class="w-full h-fit hidden mt-20 justify-center  rounded-lg">
+        <div id="tCard" class="p-5 space-y-5">
+
+        </div>
+    </div>
+    <div id="homeModal" class="flex justify-center mt-20 ">
+        <div class="w-fit h-fit bg-rose-200">
+            <div class="flex">
+                <img src="https://cdn.pixabay.com/photo/2021/02/22/16/34/portrait-6040876_1280.jpg" alt=""
+                    class="h-40 w-40 rounded-full p-5">
+                <p class="font-bold text-2xl text-black mt-17">Ms.Denna</p>
+            </div>
+            <div class="px-10">
+                <textarea id="tArea"
+                    class="w-200 h-60 shadow-xl rounded-xl  border-2 border-black bg-rose-100 text-5xl  "></textarea>
+            </div>
+            <div class="flex justify-center items-center gap-5 p-5  ">
+                <button onclick="post()"
+                    class="bg-gray-400 w-30 h-12 rounded-2xl border-2 border-black  text-2xl text-black cursor-pointer hover:bg-gray-500 ">Post</button>
+                <button onclick="clearDisplay()"
+                    class="bg-red-400 w-30 h-12 rounded-2xl border-2 border-black  text-2xl text-black cursor-pointer hover:bg-red-500 ">Clear</button>
+            </div>
+            <div id="mCard" class="p-5 space-y-5">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        let tCard = document.getElementById('tCard');
+        let mCard = document.getElementById('mCard');
+        let student = [];
+        let trash = [];
+        let trashmodal = document.getElementById('trashmodal');
+        let homeModal = document.getElementById('homeModal');
+
+
+
+        showStudent();
+
+
+        function homepostbtn() {
+            homeModal.style.display = 'flex'
+            trashmodal.style.display = 'none'
+
+        }
+        function trashPostbtn() {
+            homeModal.style.display = 'none'
+            trashmodal.style.display = 'flex'
+        }
+
+        function showStudent() {
+            let i = 0;
+            while (i < student.length) {
+                mCard.innerHTML += `
+            <div class="w-200 h-60 shadow-xl bg-rose-100  ">
+                <div class=" flex justify-between items-center gap-10 px-5">
+                    <div class="flex">
+                     <img src="https://cdn.pixabay.com/photo/2021/02/22/16/34/portrait-6040876_1280.jpg" alt=""
+                    class="h-30 w-30 rounded-full p-5">
+                    <p class="font-semibold text-2xl text-black  mt-10">Ms.Denna</p>
+                    </div>
+                    <button onclick="deletePost(${i})" class="w-30 h-10 border-black border-2 bg-red-400 hover:bg-red-500 text-black">Delete</button>
+                </div>
+                
+                <div class="px-10 mt-5">
+                    <p> ${student[i]} </p>
+                </div>
+
+            </div>
+                    
+                   `
+                i++;
+            }
+        }
+
+
+    
+        function showtrash() {
+            let d = 0;
+            while (d < trash.length) {
+                tCard.innerHTML += `
+            <div class="w-200 h-60 shadow-xl bg-rose-100  ">
+                <div class=" flex justify-between items-center gap-10 px-5">
+                    <div class="flex">
+                     <img src="https://cdn.pixabay.com/photo/2021/02/22/16/34/portrait-6040876_1280.jpg" alt=""
+                    class="h-30 w-30 rounded-full p-5">
+                    <p class="font-semibold text-2xl text-black  mt-10">Ms.Denna</p>
+                    </div>
+                    
+                </div>
+                
+                <div class="px-10 mt-5">
+                    <p> ${trash[d]} </p>
+                </div>
+
+            </div>
+                    
+                   `
+                d++;
+            }
+        }
+        function post() {
+            let tArea = document.getElementById('tArea').value;
+            mCard.innerHTML = '';
+            if (tArea === "") {
+                alert("Empty Post!");
+            } else {
+                student.push(tArea);
+            }
+
+            showStudent();
+
+        }
+        function deletePost(index) {
+            mCard.innerHTML = "";
+            tCard.innerHTML = "";
+
+            trash.push(student[index])
+            student.splice(index, 1);
+
+            showStudent();
+            showtrash();
+
+        }
+        function clearDisplay() {
+            tArea.value = "";
+            student = "";
+        }
+
+
+    </script>
+</body>
+
+</html>
